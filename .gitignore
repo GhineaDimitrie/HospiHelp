@@ -1,0 +1,18 @@
+# --- BACKEND (Java / IntelliJ / Maven) ---
+target/
+*.class
+*.iml
+.idea/
+.settings/
+.project
+.classpath
+
+# --- FRONTEND (HTML / CSS / JS) ---
+# De cele mai multe ori nu trebuie ignorat nimic la HTML/CSS simplu, 
+# dar e bine sa avem astea pentru siguranta:
+.DS_Store
+Thumbs.db
+
+# --- SISTEM ---
+*.log
+temp/
