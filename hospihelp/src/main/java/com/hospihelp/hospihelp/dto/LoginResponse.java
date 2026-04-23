@@ -1,0 +1,14 @@
+package com.hospihelp.hospihelp.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class LoginResponse {
+    private String token;
+    private String email;
+    private String rol;
+    private String nume;
+    private String prenume;
+}
