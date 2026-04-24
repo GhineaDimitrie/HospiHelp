@@ -1,5 +1,5 @@
 package com.hospihelp.hospihelp.config;
-
+import org.springframework.security.config.Customizer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,22 +47,19 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors(Customizer.withDefaults())  // <-- linia adaugata
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // Endpoint-uri publice
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
-                        // Endpoint-uri per rol
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/medic/**").hasAnyRole("MEDIC", "ADMIN")
                         .requestMatchers("/farmacist/**").hasAnyRole("FARMACIST", "ADMIN")
                         .requestMatchers("/asistenta/**").hasAnyRole("ASISTENTA", "ADMIN")
                         .requestMatchers("/receptionist/**").hasAnyRole("RECEPTIONIST", "ADMIN")
-                        // API pentru Mobile - orice angajat autentificat
                         .requestMatchers("/api/**").authenticated()
-                        // Orice altceva necesita autentificare
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
