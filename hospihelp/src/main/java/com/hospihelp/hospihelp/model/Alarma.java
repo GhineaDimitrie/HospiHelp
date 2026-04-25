@@ -1,7 +1,6 @@
 package com.hospihelp.hospihelp.model;
 
-
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,6 +21,7 @@ public class Alarma {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_comanda", referencedColumnName = "id_comanda", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "prescriptie", "angajat", "pat"})
     private Comanda comanda;
 
     @Column(name = "tip", nullable = false, length = 100)

@@ -1,7 +1,6 @@
 package com.hospihelp.hospihelp.model;
 
-
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hospihelp.hospihelp.model.enums.StatusComanda;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -30,10 +29,12 @@ public class Comanda {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_angajat", referencedColumnName = "id_angajat", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "parolaCriptata"})
     private Angajat angajat;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_pat", referencedColumnName = "id_pat", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Pat pat;
 
     @Enumerated(EnumType.STRING)
@@ -42,5 +43,6 @@ public class Comanda {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_prescriptie", referencedColumnName = "id_prescriptie", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Prescriptie prescriptie;
 }

@@ -1,8 +1,8 @@
 package com.hospihelp.hospihelp.model;
 
-
-
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -19,6 +19,8 @@ public class Pat {
     @Column(name = "id_pat")
     private Integer idPat;
 
+    @NotNull(message = "Numarul salonului este obligatoriu")
+    @Min(value = 1, message = "Numarul salonului trebuie sa fie cel putin 1")
     @Column(name = "nr_salon", nullable = false)
     private Integer nrSalon;
 

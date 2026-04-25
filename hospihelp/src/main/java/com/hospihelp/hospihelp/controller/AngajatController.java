@@ -3,6 +3,7 @@ package com.hospihelp.hospihelp.controller;
 import com.hospihelp.hospihelp.model.Angajat;
 import com.hospihelp.hospihelp.model.enums.RolAngajat;
 import com.hospihelp.hospihelp.service.AngajatService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -36,7 +37,8 @@ public class AngajatController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Angajat> creeazaAngajat(@RequestBody Angajat angajat) {
+    public ResponseEntity<Angajat> creeazaAngajat(
+            @Valid @RequestBody Angajat angajat) {
         return ResponseEntity.ok(angajatService.creeazaAngajat(angajat));
     }
 
@@ -44,7 +46,7 @@ public class AngajatController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Angajat> actualizeazaAngajat(
             @PathVariable Integer id,
-            @RequestBody Angajat angajat) {
+            @Valid @RequestBody Angajat angajat) {
         return ResponseEntity.ok(angajatService.actualizeazaAngajat(id, angajat));
     }
 
