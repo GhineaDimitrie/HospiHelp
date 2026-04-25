@@ -1,8 +1,6 @@
 package com.hospihelp.hospihelp.model;
 
-
-
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hospihelp.hospihelp.model.enums.DirectieMers;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -23,10 +21,12 @@ public class SegmentHarta {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_nod_start", referencedColumnName = "id_nod", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private NodHarta nodStart;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_nod_stop", referencedColumnName = "id_nod", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private NodHarta nodStop;
 
     @Enumerated(EnumType.STRING)

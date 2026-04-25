@@ -3,6 +3,7 @@ package com.hospihelp.hospihelp.controller;
 
 import com.hospihelp.hospihelp.model.Medicament;
 import com.hospihelp.hospihelp.service.MedicamentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -45,7 +46,7 @@ public class MedicamentController {
     @PostMapping
     @PreAuthorize("hasAnyRole('FARMACIST', 'ADMIN')")
     public ResponseEntity<Medicament> adaugaMedicament(
-            @RequestBody Medicament medicament) {
+            @Valid @RequestBody Medicament medicament) {
         return ResponseEntity.ok(medicamentService.adaugaMedicament(medicament));
     }
 
@@ -53,7 +54,7 @@ public class MedicamentController {
     @PreAuthorize("hasAnyRole('FARMACIST', 'ADMIN')")
     public ResponseEntity<Medicament> actualizeazaMedicament(
             @PathVariable Integer id,
-            @RequestBody Medicament medicament) {
+            @Valid @RequestBody Medicament medicament) {
         return ResponseEntity.ok(medicamentService.actualizeazaMedicament(id, medicament));
     }
 

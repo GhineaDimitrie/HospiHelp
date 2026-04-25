@@ -20,7 +20,7 @@ public class ComandaService {
     private final PatService patService;
     private final MedicamentService medicamentService;
 
-    public List<Comanda> getToateComenziле() {
+    public List<Comanda> getToateComenzi() {
         return comandaRepository.findAll();
     }
 

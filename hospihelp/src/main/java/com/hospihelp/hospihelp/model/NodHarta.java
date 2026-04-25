@@ -1,7 +1,6 @@
 package com.hospihelp.hospihelp.model;
 
-
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hospihelp.hospihelp.model.enums.TipLocatie;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -29,5 +28,6 @@ public class NodHarta {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_pat", referencedColumnName = "id_pat")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Pat pat;
 }

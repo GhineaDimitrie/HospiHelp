@@ -20,7 +20,7 @@ public class ComandaController {
     @GetMapping
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<Comanda>> getToateComenzi() {
-        return ResponseEntity.ok(comandaService.getToateComenziле());
+        return ResponseEntity.ok(comandaService.getToateComenzi());
     }
 
     @GetMapping("/{id}")

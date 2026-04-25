@@ -13,6 +13,23 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+
+    @ExceptionHandler(org.springframework.web.bind.MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, Object>> handleValidationErrors(
+            org.springframework.web.bind.MethodArgumentNotValidException ex) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", LocalDateTime.now().toString());
+        body.put("status", 400);
+        body.put("eroare", "Date invalide");
+
+        Map<String, String> campuri = new HashMap<>();
+        ex.getBindingResult().getFieldErrors()
+                .forEach(err -> campuri.put(err.getField(), err.getDefaultMessage()));
+        body.put("campuri", campuri);
+
+        return ResponseEntity.badRequest().body(body);
+    }
+
     // Eroare generica - RuntimeException (aruncata de service-uri)
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Map<String, Object>> handleRuntimeException(

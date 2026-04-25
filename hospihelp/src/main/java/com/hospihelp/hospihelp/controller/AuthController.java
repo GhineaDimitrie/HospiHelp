@@ -58,4 +58,25 @@ public class AuthController {
                 angajat.getPrenume()
         ));
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> getCurrentUser(
+            @RequestHeader("Authorization") String authHeader) {
+        try {
+            String token = authHeader.substring(7);
+            String email = jwtUtil.extrageEmail(token);
+            Angajat angajat = angajatService.getAngajatByEmail(email);
+            return ResponseEntity.ok(new LoginResponse(
+                    null,
+                    angajat.getEmail(),
+                    angajat.getRol().name(),
+                    angajat.getNume(),
+                    angajat.getPrenume()
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body("Token invalid sau expirat");
+        }
+    }
+
+
 }

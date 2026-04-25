@@ -2,6 +2,7 @@ package com.hospihelp.hospihelp.controller;
 
 import com.hospihelp.hospihelp.model.Pat;
 import com.hospihelp.hospihelp.service.PatService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -48,7 +49,7 @@ public class PatController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Pat> adaugaPat(@RequestBody Pat pat) {
+    public ResponseEntity<Pat> adaugaPat(@Valid @RequestBody Pat pat) {
         return ResponseEntity.ok(patService.adaugaPat(pat));
     }
 

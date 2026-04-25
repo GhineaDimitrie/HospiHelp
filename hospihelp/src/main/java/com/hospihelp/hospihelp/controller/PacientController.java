@@ -2,6 +2,7 @@ package com.hospihelp.hospihelp.controller;
 
 import com.hospihelp.hospihelp.model.Pacient;
 import com.hospihelp.hospihelp.service.PacientService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -44,7 +45,7 @@ public class PacientController {
     @PostMapping("/{idPat}")
     @PreAuthorize("hasAnyRole('MEDIC', 'RECEPTIONIST', 'ADMIN')")
     public ResponseEntity<Pacient> adaugaPacient(
-            @RequestBody Pacient pacient,
+            @Valid @RequestBody Pacient pacient,
             @PathVariable Integer idPat) {
         return ResponseEntity.ok(pacientService.adaugaPacient(pacient, idPat));
     }
