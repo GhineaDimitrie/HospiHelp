@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ro" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle} + ' - Sănătatea noastră'">Pagină modul</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="app-shell">
+    <div th:replace="~{fragments/layout :: sidebar(${activePage}, ${roleCode}, ${dashboardPath})}"></div>
+    <main class="main-area">
+        <div th:replace="~{fragments/layout :: topbar(${pageTitle}, ${pageSubtitle}, ${displayName}, ${roleLabel})}"></div>
+
+<section class="content-grid two-columns">
+    <article class="panel-card">
+        <div class="panel-head"><h3>Adaugă locație</h3><span>Administrator</span></div>
+        <form class="form-grid">
+            <input type="text" placeholder="Nume locație">
+            <select><option>Tip locație</option><option>Salon</option><option>Farmacie</option><option>Bază robot</option><option>Coridor</option></select>
+            <input type="text" placeholder="Observații">
+            <button type="button" class="primary-button">Salvează locația</button>
+        </form>
+    </article>
+    <article class="panel-card">
+        <div class="panel-head"><h3>Trasee</h3><span>Exemplu configurație</span></div>
+        <div class="info-badges"><span>2 coridoare</span><span>2 saloane</span><span>1 bază robot</span></div>
+    </article>
+</section>
+<section class="panel-card">
+    <div class="panel-head"><h3>Schiță simplă</h3><span>Model pentru documentație</span></div>
+    <div class="mini-map large-map">
+        <div class="corridor horizontal"></div>
+        <div class="corridor vertical"></div>
+        <div class="map-node pharmacy">Farmacie</div>
+        <div class="map-node room1">Salon 1</div>
+        <div class="map-node room2">Salon 2</div>
+        <div class="map-node base">Bază robot</div>
+    </div>
+</section>
+
+    </main>
+</div>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

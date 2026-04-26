@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ro" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle} + ' - Sănătatea noastră'">Pagină modul</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="app-shell">
+    <div th:replace="~{fragments/layout :: sidebar(${activePage}, ${roleCode}, ${dashboardPath})}"></div>
+    <main class="main-area">
+        <div th:replace="~{fragments/layout :: topbar(${pageTitle}, ${pageSubtitle}, ${displayName}, ${roleLabel})}"></div>
+
+<section class="content-grid two-columns">
+    <article class="panel-card">
+        <div class="panel-head"><h3>Asignează pacient</h3><span>Recepție</span></div>
+        <form class="form-grid">
+            <select><option>Selectează pacient</option><option>Popescu Ion</option></select>
+            <select><option>Selectează salon</option><option>Salon 1</option><option>Salon 2</option></select>
+            <select><option>Selectează pat</option><option>Pat 1</option><option>Pat 2</option><option>Pat 3</option></select>
+            <button type="button" class="primary-button">Actualizează alocarea</button>
+        </form>
+    </article>
+    <article class="panel-card">
+        <div class="panel-head"><h3>Stare rapidă</h3><span>Exemplu ocupare paturi</span></div>
+        <div class="info-badges"><span>Salon 1: 2/3 ocupate</span><span>Salon 2: 2/3 ocupate</span><span>2 paturi libere</span></div>
+    </article>
+</section>
+<section class="content-grid two-columns">
+    <article class="panel-card room-card">
+        <div class="panel-head"><h3>Salon 1</h3><span>Coridor principal</span></div>
+        <div class="beds-grid"><div class="bed occupied">Pat 1<br>Stan Mihai</div><div class="bed occupied">Pat 2<br>Popescu Ion</div><div class="bed free">Pat 3<br>Liber</div></div>
+    </article>
+    <article class="panel-card room-card">
+        <div class="panel-head"><h3>Salon 2</h3><span>Ramificație dreapta</span></div>
+        <div class="beds-grid"><div class="bed occupied">Pat 1<br>Ionescu Maria</div><div class="bed occupied">Pat 2<br>Georgescu Ana</div><div class="bed free">Pat 3<br>Liber</div></div>
+    </article>
+</section>
+
+    </main>
+</div>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>
