@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ro" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle} + ' - Sănătatea noastră'">Pagină modul</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="app-shell">
+    <div th:replace="~{fragments/layout :: sidebar(${activePage}, ${roleCode}, ${dashboardPath})}"></div>
+
+    <main class="main-area">
+        <div th:replace="~{fragments/layout :: topbar(${pageTitle}, ${pageSubtitle}, ${displayName}, ${roleLabel})}"></div>
+
+        <section class="content-grid two-columns">
+            <article class="panel-card">
+                <div class="panel-head"><h3>Asignează pacient</h3><span>Recepție</span></div>
+                <form class="form-grid" th:action="@{/module/pacienti/muta}" method="POST">
+                    <select name="cnp" required>
+                        <option value="">Selectează pacient</option>
+                        <option th:each="p : ${pacienti}"
+                                th:value="${p['cnp']}"
+                                th:text="${p['nume']} + ' ' + ${p['prenume']} + ' (' + ${p['cnp']} + ')'"></option>
+                    </select>
+
+                    <select name="idPatNou" required>
+                        <option value="">Selectează pat liber</option>
+                        <option th:each="pat : ${paturiLibere}"
+                                th:value="${pat['idPat']}"
+                                th:text="'Salon ' + ${pat['nrSalon']} + ' - Pat ' + ${pat['idPat']}"></option>
+                    </select>
+
+                    <button type="submit" class="primary-button">Actualizează alocarea</button>
+                </form>
+            </article>
+
+            <article class="panel-card">
+                <div class="panel-head"><h3>Stare rapidă</h3><span>Date în timp real</span></div>
+                <div class="info-badges">
+                    <span th:text="${paturiLibere != null ? #lists.size(paturiLibere) : 0} + ' paturi libere'">0 paturi libere</span>
+                    <span>Toate secțiile active</span>
+                </div>
+            </article>
+        </section>
+
+        <section class="content-grid two-columns">
+            <th:block th:if="${saloaneGrupate != null}">
+                <article class="panel-card room-card" th:each="entry : ${saloaneGrupate}">
+                    <div class="panel-head">
+                        <h3 th:text="'Salon ' + ${entry.key}">Salon</h3>
+                        <span>Secție spital</span>
+                    </div>
+
+                    <div class="beds-grid">
+                        <div th:each="pat : ${entry.value}"
+                             th:if="${pat != null}"
+                             th:class="${pat['ocupat']} ? 'bed occupied' : 'bed free'"
+                             style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 15px; min-height: 100px;">
+
+                            <strong style="display: block; margin-bottom: 5px;" th:text="'Pat ' + ${pat['idPat']}">Pat</strong>
+
+                            <div class="bed-status">
+                                <span th:text="${pat['ocupat']} ? 'Ocupat' : 'Liber'"></span>
+
+                                <div th:if="${pat['ocupat'] and pat['pacient'] != null}"
+                                     style="margin-top: 8px; font-weight: 700; color: #1a2a6c;">
+                                    <small th:text="${pat['pacient']['nume']} + ' ' + ${pat['pacient']['prenume']}"></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </th:block>
+
+            <div th:if="${saloaneGrupate == null or #maps.isEmpty(saloaneGrupate)}" class="panel-card" style="grid-column: span 2; text-align: center; padding: 40px;">
+                <p>Nu există paturi configurate în sistem.</p>
+            </div>
+        </section>
+
+    </main>
+</div>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

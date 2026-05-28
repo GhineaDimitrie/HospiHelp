@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ro" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle} + ' - Sănătatea noastră'">Pagină modul</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="app-shell">
+    <div th:replace="~{fragments/layout :: sidebar(${activePage}, ${roleCode}, ${dashboardPath})}"></div>
+    <main class="main-area">
+        <div th:replace="~{fragments/layout :: topbar(${pageTitle}, ${pageSubtitle}, ${displayName}, ${roleLabel})}"></div>
+
+<section class="content-grid two-columns">
+    <article class="panel-card">
+        <div class="panel-head"><h3>Filtre</h3><span>După dată, pacient sau status</span></div>
+        <form class="form-grid compact">
+            <input type="date">
+            <input type="text" placeholder="Pacient">
+            <select><option>Status transport</option><option>Finalizat</option><option>Nefinalizat</option></select>
+            <button type="button" class="primary-button">Aplică filtre</button>
+        </form>
+    </article>
+    <article class="panel-card">
+        <div class="panel-head"><h3>Rezumat</h3><span>Exemplu statistici</span></div>
+        <div class="info-badges"><span>18 transporturi azi</span><span>15 finalizate</span><span>3 în așteptare</span></div>
+    </article>
+</section>
+<section class="panel-card">
+    <div class="panel-head"><h3>Livrări realizate</h3><span>Istoric demonstrativ</span></div>
+    <div class="table-wrapper">
+        <table>
+            <thead><tr><th>Data</th><th>Pacient</th><th>Salon</th><th>Medicament</th><th>Status</th><th>Inițiat de</th></tr></thead>
+            <tbody>
+                <tr><td>20.04.2026</td><td>Popescu Ion</td><td>Salon 1</td><td>Paracetamol</td><td><span class="tag tag-green">Finalizat</span></td><td>Farm. Maria Ene</td></tr>
+                <tr><td>20.04.2026</td><td>Ionescu Maria</td><td>Salon 2</td><td>Amoxicilină</td><td><span class="tag tag-orange">În așteptare</span></td><td>Farm. Maria Ene</td></tr>
+                <tr><td>20.04.2026</td><td>Georgescu Ana</td><td>Salon 1</td><td>Ibuprofen</td><td><span class="tag tag-blue">Activ</span></td><td>Dr. Ionescu Gheorghe</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+    </main>
+</div>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ro" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle} + ' - Sănătatea noastră'">Pagină modul</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="app-shell">
+    <div th:replace="~{fragments/layout :: sidebar(${activePage}, ${roleCode}, ${dashboardPath})}"></div>
+    <main class="main-area">
+        <div th:replace="~{fragments/layout :: topbar(${pageTitle}, ${pageSubtitle}, ${displayName}, ${roleLabel})}"></div>
+
+<section class="content-grid two-columns">
+    <article class="panel-card">
+        <div class="panel-head"><h3>Comandă nouă</h3><span>Trimitere robot</span></div>
+        <form class="form-grid">
+            <select><option>Selectează pacient / salon</option><option>Popescu Ion - Salon 1</option></select>
+            <select><option>Selectează medicament</option><option>Paracetamol</option></select>
+            <select><option>Tip transport</option><option>Livrare normală</option><option>Urgent</option></select>
+            <button type="button" class="primary-button">Trimite robotul</button>
+            <button type="button" class="ghost-button">Stop robot</button>
+            <button type="button" class="ghost-button">Revenire la bază</button>
+        </form>
+    </article>
+    <article class="panel-card">
+        <div class="panel-head"><h3>Status curent</h3><span>Robot 1</span></div>
+        <div class="robot-status-box">
+            <div class="status-line"><span>Status:</span><strong>Pregătit de plecare</strong></div>
+            <div class="status-line"><span>Locație:</span><strong>Farmacie</strong></div>
+            <div class="status-line"><span>Baterie:</span><strong>78%</strong></div>
+        </div>
+    </article>
+</section>
+<section class="panel-card">
+    <div class="panel-head"><h3>Comenzi recente</h3><span>Exemplu listă operații</span></div>
+    <div class="table-wrapper">
+        <table>
+            <thead><tr><th>ID</th><th>Pacient</th><th>Medicament</th><th>Status</th><th>Operator</th></tr></thead>
+            <tbody>
+                <tr><td>#1254</td><td>Popescu Ion</td><td>Paracetamol</td><td><span class="tag tag-blue">Activ</span></td><td>Farm. Maria Ene</td></tr>
+                <tr><td>#1253</td><td>Ionescu Maria</td><td>Amoxicilină</td><td><span class="tag tag-orange">În așteptare</span></td><td>Farm. Maria Ene</td></tr>
+                <tr><td>#1252</td><td>Georgescu Ana</td><td>Ibuprofen</td><td><span class="tag tag-green">Finalizat</span></td><td>Farm. Maria Ene</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+    </main>
+</div>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>
