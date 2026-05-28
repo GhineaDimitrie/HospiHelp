@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import com.hospihelp.hospihelp.dto.AngajatRequest;
 import java.util.List;
 
 @RestController
@@ -38,7 +39,15 @@ public class AngajatController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Angajat> creeazaAngajat(
-            @Valid @RequestBody Angajat angajat) {
+            @Valid @RequestBody AngajatRequest request) {
+
+        Angajat angajat = new Angajat();
+        angajat.setNume(request.getNume());
+        angajat.setPrenume(request.getPrenume());
+        angajat.setEmail(request.getEmail());
+        angajat.setParolaCriptata(request.getParolaCriptata());
+        angajat.setRol(request.getRol());
+
         return ResponseEntity.ok(angajatService.creeazaAngajat(angajat));
     }
 

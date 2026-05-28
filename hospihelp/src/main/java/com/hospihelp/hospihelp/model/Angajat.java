@@ -32,8 +32,8 @@ public class Angajat {
     private String prenume;
 
     @JsonIgnore
-    @NotBlank(message = "Parola este obligatorie")
-    @Size(min = 6, message = "Parola trebuie sa aiba cel putin 6 caractere")
+
+
     @Column(name = "parola_criptata", nullable = false)
     private String parolaCriptata;
 

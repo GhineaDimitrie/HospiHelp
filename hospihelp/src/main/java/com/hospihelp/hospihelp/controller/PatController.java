@@ -1,5 +1,6 @@
 package com.hospihelp.hospihelp.controller;
 
+import com.hospihelp.hospihelp.dto.PatCuPacientDTO;
 import com.hospihelp.hospihelp.model.Pat;
 import com.hospihelp.hospihelp.service.PatService;
 import jakarta.validation.Valid;
@@ -40,11 +41,10 @@ public class PatController {
         return ResponseEntity.ok(patService.getPaturiLibere());
     }
 
-    @GetMapping("/salon/{nrSalon}/libere")
+    @GetMapping("/cu-pacienti")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<List<Pat>> getPaturiLibereDinSalon(
-            @PathVariable Integer nrSalon) {
-        return ResponseEntity.ok(patService.getPaturiLibereDinSalon(nrSalon));
+    public ResponseEntity<List<PatCuPacientDTO>> getPaturiCuPacienti() {
+        return ResponseEntity.ok(patService.getPaturiCuPacienti());
     }
 
     @PostMapping

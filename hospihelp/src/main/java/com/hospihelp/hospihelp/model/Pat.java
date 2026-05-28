@@ -1,5 +1,6 @@
 package com.hospihelp.hospihelp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -26,4 +27,9 @@ public class Pat {
 
     @Column(name = "ocupat", nullable = false)
     private Boolean ocupat = false;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cnp_pacient", referencedColumnName = "cnp")
+    @JsonIgnore
+    private Pacient pacient;
 }

@@ -52,14 +52,27 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        // Endpoint-uri publice auth
                         .requestMatchers("/auth/**").permitAll()
+                        // Resurse statice
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        // Swagger - toate path-urile necesare
+                        .requestMatchers(
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs",
+                                "/v3/api-docs/**",
+                                "/swagger-resources",
+                                "/swagger-resources/**",
+                                "/webjars/**"
+                        ).permitAll()
+                        // Roluri
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/medic/**").hasAnyRole("MEDIC", "ADMIN")
                         .requestMatchers("/farmacist/**").hasAnyRole("FARMACIST", "ADMIN")
                         .requestMatchers("/asistenta/**").hasAnyRole("ASISTENTA", "ADMIN")
                         .requestMatchers("/receptionist/**").hasAnyRole("RECEPTIONIST", "ADMIN")
+                        // API general
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().authenticated()
                 )

@@ -79,4 +79,15 @@ public class AuthController {
     }
 
 
+
+    @GetMapping("/info")
+    public ResponseEntity<?> getAngajatInfo(@RequestParam String email) {
+        Angajat angajat = angajatService.getAngajatByEmail(email);
+        if (angajat != null) {
+            return ResponseEntity.ok(angajat);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+
 }
