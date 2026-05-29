@@ -1,6 +1,7 @@
 package ro.sn.frontend.config;
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,6 +21,9 @@ public class RemoteAuthenticationProvider implements AuthenticationProvider {
 
     private final RestTemplate restTemplate;
 
+    @Value("${backend.url}")
+    private String backendUrl;
+
     public RemoteAuthenticationProvider(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
@@ -31,8 +35,15 @@ public class RemoteAuthenticationProvider implements AuthenticationProvider {
         String password = authentication.getCredentials().toString();
 
         try {
-            String url = "http://localhost:8081/auth/login";
-            Map<String, String> request = Map.of("email", email, "parola", password);
+            // Folosim backendUrl din application.properties / variabile Railway
+            String url = backendUrl + "/auth/login";
+            System.out.println("Autentificare la: " + url);
+
+            Map<String, String> request = Map.of(
+                    "email", email,
+                    "parola", password
+            );
+
             Map<String, Object> response = restTemplate.postForObject(
                     url, request, Map.class);
 
@@ -42,14 +53,14 @@ public class RemoteAuthenticationProvider implements AuthenticationProvider {
                 String rolFinal = rolDeLaBackend.equals("ADMIN")
                         ? "ADMINISTRATOR" : rolDeLaBackend;
 
-                // Salvam tokenul in sesiunea HTTP
+                // Salvam tokenul in sesiune
                 ServletRequestAttributes attrs =
-                        (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+                        (ServletRequestAttributes) RequestContextHolder
+                                .getRequestAttributes();
                 if (attrs != null) {
                     HttpSession session = attrs.getRequest().getSession(true);
                     session.setAttribute("jwt_token", token);
-                    System.out.println("Token salvat in sesiune: "
-                            + token.substring(0, 20) + "...");
+                    System.out.println("Token salvat in sesiune pentru: " + email);
                 }
 
                 return new UsernamePasswordAuthenticationToken(
@@ -59,7 +70,8 @@ public class RemoteAuthenticationProvider implements AuthenticationProvider {
                 );
             }
         } catch (Exception e) {
-            System.err.println("Eroare autentificare: " + e.getMessage());
+            System.err.println("Eroare autentificare la "
+                    + backendUrl + ": " + e.getMessage());
             throw new BadCredentialsException("Email sau parolă incorectă");
         }
 
@@ -68,6 +80,7 @@ public class RemoteAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return authentication.equals(UsernamePasswordAuthenticationToken.class);
+        return authentication.equals(
+                UsernamePasswordAuthenticationToken.class);
     }
 }
