@@ -1,4 +1,4 @@
-﻿package com.hospihelp.hospihelp.config;
+package com.hospihelp.hospihelp.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
