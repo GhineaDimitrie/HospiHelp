@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Sănătatea noastră</title>
+    <title>Login - HospiHelp</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -12,25 +12,25 @@
 <body class="login-page">
 <div class="login-layout">
     <section class="login-hero">
-        <span class="eyebrow">Clinica „Sănătatea noastră”</span>
+        <span class="eyebrow">HospiHelp</span>
         <h1>Sistem robotizat semi-automat pentru transportul medicamentelor</h1>
         <p>
-            Interfață web pentru login, dashboard și module separate pentru medic, recepționist,
-            farmacist și administrator.
+            Platformă integrată pentru gestionarea distribuției medicamentelor
+            în spital, conectând personalul medical cu robotul de transport.
         </p>
 
         <div class="hero-grid">
             <article class="hero-card">
-                <h3>Login pe roluri</h3>
-                <p>Autentificare separată și redirecționare automată pe dashboard-ul rolului tău.</p>
+                <h3>Acces pe roluri</h3>
+                <p>Fiecare utilizator vede doar funcționalitățile specifice rolului său.</p>
             </article>
             <article class="hero-card">
-                <h3>Module dedicate</h3>
-                <p>Pacienți, prescripții, stoc medicamente, comenzi robot, alarme și utilizatori.</p>
+                <h3>Module complete</h3>
+                <p>Pacienți, prescripții, stoc medicamente, comenzi robot și alarme.</p>
             </article>
             <article class="hero-card">
-                <h3>Frontend pregătit pentru backend</h3>
-                <p>Structura este gata pentru integrare cu baze de date, cloud și CRUD-uri reale.</p>
+                <h3>Conectat în timp real</h3>
+                <p>Date live din baza de date cloud, sincronizate cu robotul fizic.</p>
             </article>
         </div>
     </section>
@@ -41,32 +41,30 @@
                 <div class="brand-icon large">✚</div>
                 <div>
                     <h2>Autentificare</h2>
-                    <p>Intră în platformă cu unul dintre conturile demo.</p>
+                    <p>Intră în platformă cu credențialele contului tău.</p>
                 </div>
             </div>
 
-            <div class="message error" th:if="${param.error}">Date incorecte. Verifică utilizatorul și parola.</div>
-            <div class="message success" th:if="${param.logout}">Te-ai delogat cu succes.</div>
+            <div class="message error" th:if="${param.error}">
+                Date incorecte. Verifică emailul și parola.
+            </div>
+            <div class="message success" th:if="${param.logout}">
+                Te-ai delogat cu succes.
+            </div>
 
             <form th:action="@{/login}" method="post" class="login-form">
-
-
-                <label for="username">Email / username</label>
-                <input id="username" name="username" type="text" placeholder="ex: medic@sn.ro" required>
+                <label for="username">Email</label>
+                <input id="username" name="username" type="email"
+                       placeholder="ex: nume@hospihelp.ro" required>
 
                 <label for="password">Parolă</label>
-                <input id="password" name="password" type="password" placeholder="Introdu parola" required>
+                <input id="password" name="password" type="password"
+                       placeholder="Introdu parola" required>
 
-                <button type="submit" class="primary-button full-width">Autentificare</button>
+                <button type="submit" class="primary-button full-width">
+                    Autentificare
+                </button>
             </form>
-
-            <div class="demo-users">
-                <h3>Conturi demo</h3>
-                <div class="demo-user"><span>Medic</span><strong>medic@sn.ro / medic123</strong></div>
-                <div class="demo-user"><span>Recepționist</span><strong>receptie@sn.ro / receptie123</strong></div>
-                <div class="demo-user"><span>Farmacist</span><strong>farmacie@sn.ro / farmacie123</strong></div>
-                <div class="demo-user"><span>Administrator</span><strong>admin@sn.ro / admin123</strong></div>
-            </div>
         </div>
     </section>
 </div>

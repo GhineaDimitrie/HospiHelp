@@ -5,53 +5,81 @@
     <div class="brand-block">
         <div class="brand-icon">✚</div>
         <div>
-            <h1>Sănătatea noastră</h1>
-            <p>Clinică • Sistem robotizat</p>
+            <h1>HospiHelp</h1>
+            <p>Sistem robotizat spital</p>
         </div>
     </div>
 
     <nav class="menu-list">
-        <a th:href="${dashboardPath}" th:classappend="${activePage == 'dashboard'} ? ' active' : ''">Dashboard</a>
+        <a th:href="${dashboardPath}"
+           th:classappend="${activePage == 'dashboard'} ? ' active' : ''">
+            Dashboard
+        </a>
 
         <a th:if="${roleCode == 'MEDIC' or roleCode == 'RECEPTIONIST'}"
            th:href="@{/module/pacienti}"
-           th:classappend="${activePage == 'pacienti'} ? ' active' : ''">Pacienți</a>
+           th:classappend="${activePage == 'pacienti'} ? ' active' : ''">
+            Pacienți
+        </a>
 
         <a th:if="${roleCode == 'RECEPTIONIST'}"
            th:href="@{/module/saloane}"
-           th:classappend="${activePage == 'saloane'} ? ' active' : ''">Saloane și paturi</a>
+           th:classappend="${activePage == 'saloane'} ? ' active' : ''">
+            Saloane și paturi
+        </a>
 
         <a th:if="${roleCode == 'MEDIC'}"
            th:href="@{/module/prescriptii}"
-           th:classappend="${activePage == 'prescriptii'} ? ' active' : ''">Prescripții</a>
+           th:classappend="${activePage == 'prescriptii'} ? ' active' : ''">
+            Prescripții
+        </a>
 
         <a th:if="${roleCode == 'FARMACIST'}"
            th:href="@{/module/medicamente}"
-           th:classappend="${activePage == 'medicamente'} ? ' active' : ''">Stoc medicamente</a>
+           th:classappend="${activePage == 'medicamente'} ? ' active' : ''">
+            Stoc medicamente
+        </a>
 
+        <a th:if="${roleCode == 'FARMACIST'}"
+           th:href="@{/module/comenzi-robot}"
+           th:classappend="${activePage == 'comenzi-robot'} ? ' active' : ''">
+            Comenzi robot
+        </a>
 
-
-
-
-        <a th:if="${roleCode == 'MEDIC' or roleCode == 'ADMINISTRATOR'}"
+        <a th:if="${roleCode == 'MEDIC' or roleCode == 'ADMINISTRATOR' or roleCode == 'FARMACIST'}"
            th:href="@{/module/alarme}"
-           th:classappend="${activePage == 'alarme'} ? ' active' : ''">Alarme</a>
+           th:classappend="${activePage == 'alarme'} ? ' active' : ''">
+            Alarme
+        </a>
 
         <a th:if="${roleCode == 'MEDIC' or roleCode == 'FARMACIST'}"
            th:href="@{/module/istoric}"
-           th:classappend="${activePage == 'istoric'} ? ' active' : ''">Istoric transporturi</a>
+           th:classappend="${activePage == 'istoric'} ? ' active' : ''">
+            Istoric transporturi
+        </a>
 
-
+        <a th:if="${roleCode == 'ADMINISTRATOR'}"
+           th:href="@{/module/harta}"
+           th:classappend="${activePage == 'harta'} ? ' active' : ''">
+            Hartă spital
+        </a>
 
         <a th:if="${roleCode == 'ADMINISTRATOR'}"
            th:href="@{/module/utilizatori}"
-           th:classappend="${activePage == 'utilizatori'} ? ' active' : ''">Utilizatori</a>
+           th:classappend="${activePage == 'utilizatori'} ? ' active' : ''">
+            Utilizatori
+        </a>
     </nav>
 
     <div class="sidebar-status">
-        <p class="sidebar-status-title">Acces activ</p>
-        <strong th:text="${roleCode == 'MEDIC'} ? 'Cabinet medical' : (${roleCode == 'RECEPTIONIST'} ? 'Recepție' : (${roleCode == 'FARMACIST'} ? 'Farmacie' : 'Administrare'))">Cabinet medical</strong>
-        <span>Robot 1 disponibil pentru testare</span>
+        <p class="sidebar-status-title">Conectat ca</p>
+        <strong th:text="${roleCode == 'MEDIC'} ? 'Medic'
+                        : (${roleCode == 'RECEPTIONIST'} ? 'Recepționist'
+                        : (${roleCode == 'FARMACIST'} ? 'Farmacist'
+                        : (${roleCode == 'ASISTENTA'} ? 'Asistentă'
+                        : 'Administrator')))">
+        </strong>
+        <span>HospiHelp v1.0</span>
     </div>
 </aside>
 
@@ -62,16 +90,24 @@
     </div>
 
     <div class="topbar-right">
-        <div class="notification-pill">3 alarme</div>
+        <a th:href="@{/module/alarme}" class="notification-pill"
+           style="text-decoration:none; cursor:pointer;">
+            Alarme
+        </a>
         <div class="profile-box">
-            <div class="avatar" th:text="${#strings.substring(displayName,0,1)}">D</div>
+            <div class="avatar"
+                 th:text="${displayName != null and !#strings.isEmpty(displayName)}
+                           ? ${#strings.substring(displayName, 0, 1)}
+                           : 'U'">U</div>
             <div>
                 <strong th:text="${displayName}">Utilizator</strong>
                 <small th:text="${roleLabel}">Rol</small>
             </div>
         </div>
         <form th:action="@{/logout}" method="post">
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <input type="hidden"
+                   th:name="${_csrf.parameterName}"
+                   th:value="${_csrf.token}">
             <button class="logout-button" type="submit">Ieșire</button>
         </form>
     </div>
