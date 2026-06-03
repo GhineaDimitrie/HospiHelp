@@ -24,6 +24,46 @@
                     border-radius:8px;margin-bottom:12px;"
              th:text="${eroare}"></div>
 
+        <section class="panel-card" style="margin-bottom: 20px;">
+            <div class="panel-head">
+                <h3>Lansează Comandă Nouă</h3>
+                <span>Transformă o prescripție în misiune pentru robot</span>
+            </div>
+            <form th:action="@{/module/comenzi/creeaza}" method="post" class="form-grid compact">
+                <div class="form-group">
+                    <label>Angajat responsabil</label>
+                    <select name="idAngajat" required>
+                        <option value="">Selectează angajatul</option>
+                        <option th:each="ang : ${angajati}"
+                                th:value="${ang.idAngajat}"
+                                th:text="${ang.nume} + ' ' + ${ang.prenume}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Prescripție medicală</label>
+                    <select name="idPrescriptie" required>
+                        <option value="">Alege prescripția</option>
+                        <option th:each="presc : ${prescriptii}"
+                                th:value="${presc.idPrescriptie}"
+                                th:text="${presc.pacient.nume} + ' ' + ${presc.pacient.prenume} + ' - ' + ${presc.medicament.denumire}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Pat destinație</label>
+                    <select name="idPat" required>
+                        <option value="">Alege patul</option>
+                        <option th:each="p : ${toatePaturile}"
+                                th:value="${p.idPat}"
+                                th:text="'Salon ' + ${p.nrSalon} + ' - Pat ' + ${p.idPat}"></option>
+                    </select>
+                </div>
+
+                <button type="submit" class="primary-button" style="align-self: flex-end;">Lansează Robot</button>
+            </form>
+        </section>
+
         <section class="panel-card">
             <div class="panel-head">
                 <h3>Comenzi recente</h3>

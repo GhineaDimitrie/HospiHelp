@@ -50,7 +50,7 @@
             </thead>
             <tbody>
                 <tr th:each="comanda : ${comenzi}">
-                    <td th:text="'#' + ${comanda['idComanda']}"></td>
+                    <td th:text="'ID Real: ' + ${comanda['idComanda']}"></td>
                     <td th:text="${comanda['data']}"></td>
                     <td th:text="${comanda['ora']}"></td>
                     <td th:text="${comanda['prescriptie'] != null
@@ -67,6 +67,8 @@
                         <span class="tag tag-orange"  th:if="${comanda['status'] == 'IN_ASTEPTARE'}">În așteptare</span>
                         <span class="tag tag-green"   th:if="${comanda['status'] == 'FINALIZAT'}">Finalizat</span>
                         <span class="tag tag-red"     th:if="${comanda['status'] == 'NEFINALIZAT'}">Nefinalizat</span>
+                        <span class="tag" th:if="${comanda['status'] != 'ACTIV' and comanda['status'] != 'FINALIZAT' and comanda['status'] != 'IN_ASTEPTARE' and comanda['status'] != 'NEFINALIZAT'}"
+                              th:text="${comanda['status']}">Status Necunoscut</span>
                     </td>
                 </tr>
                 <tr th:if="${comenzi == null or #lists.isEmpty(comenzi)}">

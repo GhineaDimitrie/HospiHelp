@@ -191,7 +191,15 @@ public class PageController {
     public String comenziRobot(Model model, Authentication authentication) {
         preparePage(model, authentication, "comenzi-robot",
                 "Comenzi robot", "Controlul livrărilor de medicamente");
+
+        // Datele pentru tabel
         model.addAttribute("comenzi", backendService.getToateComenzi());
+
+        // Datele pentru noul formular (ASTA TREBUIE ADĂUGAT)
+        model.addAttribute("prescriptii", backendService.getPrescriptii());
+        model.addAttribute("angajati", backendService.getAngajati());
+        model.addAttribute("toatePaturile", backendService.getPaturiCuPacienti()); // Sau o metodă care returnează toate paturile
+
         return "modules/comenzi-robot";
     }
 
