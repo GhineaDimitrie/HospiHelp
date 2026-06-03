@@ -50,10 +50,10 @@
                     <select name="idPat" required>
                         <option value="">Selectează pat liber</option>
                         <option th:each="pat : ${paturiLibere}"
-                                th:value="${pat.idPat}"
-                                th:text="'Salon ' + ${pat.nrSalon} + ' / Pat ' + ${pat.idPat}">
+                                th:value="${pat['idPat']}"
+                                th:text="'Salon ' + ${pat['nrSalon']} + ' / Pat ' + ${pat['idPat']}">
                         </option>
-                        <option th:if="${#lists.isEmpty(paturiLibere)}" disabled>
+                        <option th:if="${paturiLibere == null or #lists.isEmpty(paturiLibere)}" disabled>
                             Nu există paturi libere
                         </option>
                     </select>
@@ -72,10 +72,10 @@
                            onkeyup="filtreazaPacienti()"/>
                 </div>
                 <div class="info-badges">
-                    <span th:text="${#lists.size(pacienti)} + ' pacienți activi'">
+                    <span th:text="${(pacienti != null ? #lists.size(pacienti) : 0) + ' pacienți activi'}">
                         0 pacienți activi
                     </span>
-                    <span th:text="${#lists.size(paturiLibere)} + ' paturi libere'">
+                    <span th:text="${(paturiLibere != null ? #lists.size(paturiLibere) : 0) + ' paturi libere'}">
                         0 paturi libere
                     </span>
                 </div>
@@ -100,16 +100,16 @@
                     </thead>
                     <tbody>
                     <tr th:each="pacient : ${pacienti}">
-                        <td th:text="${pacient.nume} + ' ' + ${pacient.prenume}"></td>
-                        <td th:text="${pacient.cnp}"></td>
-                        <td th:text="${pacient.telefon}"></td>
-                        <td th:text="${pacient.email}"></td>
-                        <td th:if="${pacient.pat != null}"
-                            th:text="'Salon ' + ${pacient.pat.nrSalon}
-                                         + ' / Pat ' + ${pacient.pat.idPat}">
+                        <td th:text="${pacient['nume']} + ' ' + ${pacient['prenume']}"></td>
+                        <td th:text="${pacient['cnp']}"></td>
+                        <td th:text="${pacient['telefon']}"></td>
+                        <td th:text="${pacient['email']}"></td>
+                        <td th:if="${pacient['pat'] != null}"
+                            th:text="'Salon ' + ${pacient['pat']['nrSalon']}
+                                         + ' / Pat ' + ${pacient['pat']['idPat']}">
                         </td>
-                        <td th:if="${pacient.pat == null}"
-                            style="color:#888;">Nealoc
+                        <td th:if="${pacient['pat'] == null}"
+                            style="color:#888;">Nealocat
                         </td>
                     </tr>
                     <tr th:if="${pacienti == null or #lists.isEmpty(pacienti)}">

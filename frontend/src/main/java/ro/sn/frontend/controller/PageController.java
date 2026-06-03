@@ -154,13 +154,14 @@ public class PageController {
     // ─── MODULE ───────────────────────────────────────────────────────────────
     @GetMapping("/module/pacienti")
     public String pacienti(Model model, Authentication authentication) {
-        preparePage(model, authentication, "pacienti",
-                "Pacienți", "Adăugare, căutare și editare date pacient");
-        model.addAttribute("pacienti", backendService.getPacienti());
-        model.addAttribute("paturiLibere", backendService.getPaturiLibere());
+        preparePage(model, authentication, "pacienti", "Pacienți", "Gestionare pacienți");
+
+        var listaPacienti = backendService.getPacienti();
+        // Dacă API-ul dă eroare sau e gol, trimitem o listă goală, nu null
+        model.addAttribute("pacienti", listaPacienti != null ? listaPacienti : new java.util.ArrayList<>());
+
         return "modules/pacienti";
     }
-
     @GetMapping("/module/prescriptii")
     public String prescriptii(Model model, Authentication authentication) {
         preparePage(model, authentication, "prescriptii",
