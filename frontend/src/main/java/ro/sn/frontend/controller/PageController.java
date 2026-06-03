@@ -193,13 +193,16 @@ public class PageController {
         preparePage(model, authentication, "comenzi-robot",
                 "Comenzi robot", "Controlul livrărilor de medicamente");
 
-        // Datele pentru tabel
+        // 1. Datele pentru tabelul de comenzi existente
         model.addAttribute("comenzi", backendService.getToateComenzi());
 
-        // Datele pentru noul formular (ASTA TREBUIE ADĂUGAT)
+        // 2. Datele pentru formularul de "Lansează Comandă Nouă"
         model.addAttribute("prescriptii", backendService.getPrescriptii());
         model.addAttribute("angajati", backendService.getAngajati());
-        model.addAttribute("toatePaturile", backendService.getPaturiCuPacienti()); // Sau o metodă care returnează toate paturile
+
+        // IMPORTANT: Trimitem lista sub numele "paturi" pentru a se potrivi cu HTML-ul
+        // Folosim getPaturiCuPacienti deoarece robotul trebuie să meargă la un om
+        model.addAttribute("paturi", backendService.getPaturiCuPacienti());
 
         return "modules/comenzi-robot";
     }
@@ -489,5 +492,14 @@ public class PageController {
                     "Eroare la rezolvarea alarmei.");
         }
         return "redirect:/module/alarme";
+    }
+
+
+
+    @GetMapping("/module/video")
+    public String video(Model model, Authentication authentication) {
+        // Metoda preparePage setează titlul și datele utilizatorului (cum ai la pacienți)
+        preparePage(model, authentication, "video", "Monitorizare Live", "Cameră Robot Spital");
+        return "modules/video"; // Numele fișierului tău HTML fără extensie
     }
 }
