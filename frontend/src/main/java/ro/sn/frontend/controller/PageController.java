@@ -217,7 +217,13 @@ public class PageController {
     public String alarme(Model model, Authentication authentication) {
         preparePage(model, authentication, "alarme",
                 "Alarme", "Vizualizare alarme și severitate");
-        model.addAttribute("alarme", backendService.getAlarmeNerezolvate());
+
+        var alarmeList = backendService.getAlarmeNerezolvate();
+        if (alarmeList == null) {
+            alarmeList = new java.util.ArrayList<>(); // Evităm NullPointerException în Thymeleaf
+        }
+
+        model.addAttribute("alarme", alarmeList);
         return "modules/alarme";
     }
 
