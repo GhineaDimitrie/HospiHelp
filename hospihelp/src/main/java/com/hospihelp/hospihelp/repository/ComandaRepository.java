@@ -1,6 +1,5 @@
 package com.hospihelp.hospihelp.repository;
 
-
 import com.hospihelp.hospihelp.model.Comanda;
 import com.hospihelp.hospihelp.model.enums.StatusComanda;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,6 +23,12 @@ public interface ComandaRepository extends JpaRepository<Comanda, Integer> {
     @Query("SELECT c FROM Comanda c WHERE c.pat.nrSalon = :nrSalon AND c.status = :status")
     List<Comanda> findBySalonSiStatus(
             @Param("nrSalon") Integer nrSalon,
+            @Param("status") StatusComanda status
+    );
+
+    @Query("SELECT c FROM Comanda c WHERE c.pat.idPat = :idPat AND c.status = :status")
+    List<Comanda> findByPatSiStatus(
+            @Param("idPat") Integer idPat,
             @Param("status") StatusComanda status
     );
 }

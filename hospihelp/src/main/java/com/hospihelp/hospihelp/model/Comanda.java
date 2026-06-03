@@ -45,4 +45,4 @@ public class Comanda {
     @JoinColumn(name = "id_prescriptie", referencedColumnName = "id_prescriptie", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Prescriptie prescriptie;
-}
+}   
