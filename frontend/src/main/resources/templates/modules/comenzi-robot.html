@@ -46,8 +46,9 @@
                     <select name="idPrescriptie" required>
                         <option value="">Alege prescripția</option>
                         <option th:each="presc : ${prescriptii}"
-                                th:value="${presc.idPrescriptie}"
-                                th:text="${presc.pacient.nume} + ' ' + ${presc.pacient.prenume} + ' - ' + ${presc.medicament.denumire}"></option>
+                                th:value="${presc['idPrescriptie']}"
+                                th:text="${presc['pacient']['nume']} + ' ' + ${presc['pacient']['prenume']} + ' - ' + ${presc['medicament']['denumire']}">
+                        </option>
                     </select>
                 </div>
 
@@ -55,7 +56,7 @@
                     <label>Pat destinație</label>
                     <select name="idPat" required class="form-select">
                         <option value="">Alege patul</option>
-                        <option th:each="p : ${paturi}"
+                        <option th:each="p : ${toatePaturile}"
                                 th:value="${p['idPat']}"
                                 th:text="'Salon ' + ${p['nrSalon']} + ' - Pat ' + ${p['idPat']} + ' (' + ${p['pacient']['nume']} + ')'">
                         </option>
