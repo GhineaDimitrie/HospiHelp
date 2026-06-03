@@ -53,11 +53,12 @@
 
                 <div class="form-group">
                     <label>Pat destinație</label>
-                    <select name="idPat" required>
+                    <select name="idPat" required class="form-select">
                         <option value="">Alege patul</option>
-                        <option th:each="p : ${toatePaturile}"
-                                th:value="${p.idPat}"
-                                th:text="'Salon ' + ${p.nrSalon} + ' - Pat ' + ${p.idPat}"></option>
+                        <option th:each="p : ${paturi}"
+                                th:value="${p['idPat']}"
+                                th:text="'Salon ' + ${p['nrSalon']} + ' - Pat ' + ${p['idPat']} + ' (' + ${p['pacient']['nume']} + ')'">
+                        </option>
                     </select>
                 </div>
 
