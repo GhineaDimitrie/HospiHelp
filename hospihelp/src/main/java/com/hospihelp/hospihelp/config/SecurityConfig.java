@@ -1,4 +1,5 @@
 package com.hospihelp.hospihelp.config;
+
 import org.springframework.security.config.Customizer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -47,32 +48,33 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(Customizer.withDefaults())  // <-- linia adaugata
+                .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // Endpoint-uri publice auth
+                        // Endpoint-uri publice
                         .requestMatchers("/auth/**").permitAll()
-                        // Resurse statice
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
-                        // Swagger - toate path-urile necesare
                         .requestMatchers(
-                                "/swagger-ui.html",
-                                "/swagger-ui/**",
-                                "/v3/api-docs",
-                                "/v3/api-docs/**",
-                                "/swagger-resources",
-                                "/swagger-resources/**",
-                                "/webjars/**"
+                                "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs",
+                                "/v3/api-docs/**", "/swagger-resources", "/swagger-resources/**", "/webjars/**"
                         ).permitAll()
-                        // Roluri
+
+                        // --- ACCES PE BAZA DE ROLURI ---
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/medic/**").hasAnyRole("MEDIC", "ADMIN")
                         .requestMatchers("/farmacist/**").hasAnyRole("FARMACIST", "ADMIN")
                         .requestMatchers("/asistenta/**").hasAnyRole("ASISTENTA", "ADMIN")
                         .requestMatchers("/receptionist/**").hasAnyRole("RECEPTIONIST", "ADMIN")
-                        // API general
+
+                        // Permisiuni specifice pentru ROBOT
+                        // Robotul are voie să vadă comenzile și să raporteze alarme
+                        .requestMatchers("/api/comenzi/**").hasAnyRole("ADMIN", "MEDIC", "ROBOT")
+                        .requestMatchers("/api/alarme/**").hasAnyRole("ADMIN", "ROBOT")
+                        .requestMatchers("/api/paturi/**").hasAnyRole("ADMIN", "ROBOT")
+
+                        // API general - oricine autentificat (inclusiv ROBOT)
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().authenticated()
                 )

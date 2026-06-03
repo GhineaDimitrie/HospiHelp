@@ -5,5 +5,6 @@ public enum RolAngajat {
     MEDIC,
     FARMACIST,
     ASISTENTA,
-    RECEPTIONIST
+    RECEPTIONIST,
+    ROBOT
 }
