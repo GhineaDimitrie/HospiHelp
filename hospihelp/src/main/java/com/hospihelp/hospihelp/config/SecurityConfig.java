@@ -70,9 +70,9 @@ public class SecurityConfig {
 
                         // Permisiuni specifice pentru ROBOT
                         // Robotul are voie să vadă comenzile și să raporteze alarme
-                        .requestMatchers("/api/comenzi/**").hasAnyRole("ADMIN", "MEDIC", "ROBOT")
+                        .requestMatchers("/api/comenzi/**").hasAnyRole("ADMIN", "MEDIC", "ROBOT","ASISTENTA", "FARMACIST")
                         .requestMatchers("/api/alarme/**").hasAnyRole("ADMIN", "ROBOT")
-                        .requestMatchers("/api/paturi/**").hasAnyRole("ADMIN", "ROBOT")
+                        .requestMatchers("/api/paturi/**").hasAnyRole("ADMIN", "ROBOT", "ASISTENTA")
 
                         // API general - oricine autentificat (inclusiv ROBOT)
                         .requestMatchers("/api/**").authenticated()
