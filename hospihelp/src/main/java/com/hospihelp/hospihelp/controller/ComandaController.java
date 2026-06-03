@@ -2,6 +2,7 @@ package com.hospihelp.hospihelp.controller;
 
 import com.hospihelp.hospihelp.model.Comanda;
 import com.hospihelp.hospihelp.model.enums.StatusComanda;
+import com.hospihelp.hospihelp.repository.ComandaRepository;
 import com.hospihelp.hospihelp.service.ComandaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +13,11 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/comenzi")
-@RequiredArgsConstructor
+@RequiredArgsConstructor // Această adnotare cere ca variabilele să fie FINAL
 public class ComandaController {
 
+    // AM ADĂUGAT 'final' AICI - Fără asta, Spring nu știe să îl injecteze
+    private final ComandaRepository comandaRepository;
     private final ComandaService comandaService;
 
     @GetMapping
@@ -74,5 +77,19 @@ public class ComandaController {
             @RequestBody Map<String, String> body) {
         StatusComanda statusNou = StatusComanda.valueOf(body.get("status"));
         return ResponseEntity.ok(comandaService.actualizeazaStatus(id, statusNou));
+    }
+
+    @PutMapping("/{id}/confirma")
+    @PreAuthorize("hasAnyRole('ASISTENTA', 'ADMIN')") // Securizăm accesul
+    public ResponseEntity<?> confirmaAjungere(@PathVariable Integer id) {
+        // Acum comandaRepository va funcționa (nu mai e roșu)
+        Comanda comanda = comandaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Comanda negăsită"));
+
+        comanda.setConfirmatAsistenta(true);
+        comanda.setStatus(StatusComanda.FINALIZAT);
+
+        comandaRepository.save(comanda);
+        return ResponseEntity.ok("Livrare confirmată de asistentă!");
     }
 }

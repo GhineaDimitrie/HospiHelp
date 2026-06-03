@@ -45,4 +45,7 @@ public class Comanda {
     @JoinColumn(name = "id_prescriptie", referencedColumnName = "id_prescriptie", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Prescriptie prescriptie;
+
+    @Column(name = "confirmat_asistenta")
+    private boolean confirmatAsistenta = false; // Valoare inițială
 }   
