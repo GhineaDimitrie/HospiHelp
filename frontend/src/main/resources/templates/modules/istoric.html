@@ -26,19 +26,54 @@
         </form>
     </article>
     <article class="panel-card">
-        <div class="panel-head"><h3>Rezumat</h3><span>Exemplu statistici</span></div>
-        <div class="info-badges"><span>18 transporturi azi</span><span>15 finalizate</span><span>3 în așteptare</span></div>
+        <div class="panel-head"><h3>Rezumat</h3><span>Statistici reale</span></div>
+        <div class="info-badges">
+            <span th:text="${totalComenzi} + ' transporturi total'">0 transporturi total</span>
+            <span th:text="${nrFinalizate} + ' finalizate'">0 finalizate</span>
+            <span th:text="${nrInAsteptare} + ' în așteptare'">0 în așteptare</span>
+        </div>
     </article>
 </section>
 <section class="panel-card">
-    <div class="panel-head"><h3>Livrări realizate</h3><span>Istoric demonstrativ</span></div>
+    <div class="panel-head"><h3>Livrări realizate</h3><span>Date reale din baza de date</span></div>
     <div class="table-wrapper">
         <table>
-            <thead><tr><th>Data</th><th>Pacient</th><th>Salon</th><th>Medicament</th><th>Status</th><th>Inițiat de</th></tr></thead>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Data</th>
+                    <th>Ora</th>
+                    <th>Pacient</th>
+                    <th>Medicament</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
             <tbody>
-                <tr><td>20.04.2026</td><td>Popescu Ion</td><td>Salon 1</td><td>Paracetamol</td><td><span class="tag tag-green">Finalizat</span></td><td>Farm. Maria Ene</td></tr>
-                <tr><td>20.04.2026</td><td>Ionescu Maria</td><td>Salon 2</td><td>Amoxicilină</td><td><span class="tag tag-orange">În așteptare</span></td><td>Farm. Maria Ene</td></tr>
-                <tr><td>20.04.2026</td><td>Georgescu Ana</td><td>Salon 1</td><td>Ibuprofen</td><td><span class="tag tag-blue">Activ</span></td><td>Dr. Ionescu Gheorghe</td></tr>
+                <tr th:each="comanda : ${comenzi}">
+                    <td th:text="'#' + ${comanda['idComanda']}"></td>
+                    <td th:text="${comanda['data']}"></td>
+                    <td th:text="${comanda['ora']}"></td>
+                    <td th:text="${comanda['prescriptie'] != null
+                            and comanda['prescriptie']['pacient'] != null
+                            ? comanda['prescriptie']['pacient']['nume']
+                              + ' ' + comanda['prescriptie']['pacient']['prenume']
+                            : '—'}"></td>
+                    <td th:text="${comanda['prescriptie'] != null
+                            and comanda['prescriptie']['medicament'] != null
+                            ? comanda['prescriptie']['medicament']['denumire']
+                            : '—'}"></td>
+                    <td>
+                        <span class="tag tag-blue"    th:if="${comanda['status'] == 'ACTIV'}">Activ</span>
+                        <span class="tag tag-orange"  th:if="${comanda['status'] == 'IN_ASTEPTARE'}">În așteptare</span>
+                        <span class="tag tag-green"   th:if="${comanda['status'] == 'FINALIZAT'}">Finalizat</span>
+                        <span class="tag tag-red"     th:if="${comanda['status'] == 'NEFINALIZAT'}">Nefinalizat</span>
+                    </td>
+                </tr>
+                <tr th:if="${comenzi == null or #lists.isEmpty(comenzi)}">
+                    <td colspan="6" style="text-align:center;color:#888;padding:20px;">
+                        Nu există comenzi înregistrate.
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

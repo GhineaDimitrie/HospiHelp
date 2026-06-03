@@ -217,7 +217,13 @@ public class PageController {
     public String istoric(Model model, Authentication authentication) {
         preparePage(model, authentication, "istoric",
                 "Istoric transporturi", "Livrări realizate de robot");
-        model.addAttribute("comenzi", backendService.getToateComenzi());
+        List<Map<String, Object>> comenzi = backendService.getToateComenzi();
+        model.addAttribute("comenzi", comenzi);
+        long nrFinalizate   = comenzi == null ? 0 : comenzi.stream().filter(c -> "FINALIZAT".equals(c.get("status"))).count();
+        long nrInAsteptare  = comenzi == null ? 0 : comenzi.stream().filter(c -> "IN_ASTEPTARE".equals(c.get("status"))).count();
+        model.addAttribute("totalComenzi",  comenzi == null ? 0 : comenzi.size());
+        model.addAttribute("nrFinalizate",  nrFinalizate);
+        model.addAttribute("nrInAsteptare", nrInAsteptare);
         return "modules/istoric";
     }
     @GetMapping("/module/saloane")
