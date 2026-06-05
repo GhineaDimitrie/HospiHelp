@@ -58,6 +58,12 @@
             Istoric transporturi
         </a>
 
+        <a th:if="${roleCode == 'MEDIC' or roleCode == 'ADMINISTRATOR'}"
+           th:href="@{/module/video}"
+           th:classappend="${activePage == 'video'} ? ' active' : ''">
+            Monitorizare Live
+        </a>
+
         <a th:if="${roleCode == 'ADMINISTRATOR'}"
            th:href="@{/module/harta}"
            th:classappend="${activePage == 'harta'} ? ' active' : ''">
