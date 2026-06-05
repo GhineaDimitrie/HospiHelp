@@ -306,7 +306,8 @@ public class BackendService {
 
     // În BackendService.java, înlocuiește getSaloane() cu aceasta:
     public List<Map<String, Object>> getPaturiCuPacienti() {
-        return get("/api/paturi/cu-pacienti",
+        // Schimbăm temporar la endpoint-ul general de paturi ca să verificăm conexiunea
+        return get("/api/paturi",
                 new ParameterizedTypeReference<>() {});
     }
 
