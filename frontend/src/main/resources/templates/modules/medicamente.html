@@ -1,22 +1,99 @@
-<div th:if="${succes}" class="alert alert-success" th:text="${succes}"></div>
-<div th:if="${eroare}" class="alert alert-error" th:text="${eroare}"></div>
+<!DOCTYPE html>
+<html lang="ro" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle} + ' - HospiHelp'">Medicamente</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="app-shell">
+    <div th:replace="~{fragments/layout :: sidebar(${activePage}, ${roleCode}, ${dashboardPath})}"></div>
+    <main class="main-area">
+        <div th:replace="~{fragments/layout :: topbar(${pageTitle}, ${pageSubtitle}, ${displayName}, ${roleLabel})}"></div>
 
-<form method="POST" th:action="@{/module/medicamente/adauga}">
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-    <input type="text" name="denumire" placeholder="Denumire medicament" required/>
-    <input type="number" name="stoc" placeholder="Stoc inițial" min="0" required/>
-    <button type="submit">Adaugă medicament</button>
-</form>
+        <div th:if="${succes}"
+             style="background:#d4edda;color:#155724;padding:12px 20px;border-radius:8px;margin-bottom:12px;"
+             th:text="${succes}"></div>
+        <div th:if="${eroare}"
+             style="background:#f8d7da;color:#721c24;padding:12px 20px;border-radius:8px;margin-bottom:12px;"
+             th:text="${eroare}"></div>
 
-<table>
-    <thead>
-    <tr><th>ID</th><th>Denumire</th><th>Stoc</th></tr>
-    </thead>
-    <tbody>
-    <tr th:each="med : ${medicamente}">
-        <td th:text="${med.idMedicament}"></td>
-        <td th:text="${med.denumire}"></td>
-        <td th:text="${med.stoc}"></td>
-    </tr>
-    </tbody>
-</table>
+        <!-- Adaugă medicament -->
+        <section class="panel-card" style="margin-bottom: 20px;">
+            <div class="panel-head">
+                <h3>Adaugă Medicament</h3>
+                <span>Înregistrează un medicament nou în stoc</span>
+            </div>
+            <form th:action="@{/module/medicamente/adauga}" method="post" class="form-grid compact">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <div class="form-group">
+                    <label>Denumire medicament</label>
+                    <input type="text" name="denumire" placeholder="ex: Paracetamol 500mg" required/>
+                </div>
+                <div class="form-group">
+                    <label>Stoc inițial</label>
+                    <input type="number" name="stoc" placeholder="ex: 100" min="0" required/>
+                </div>
+                <button type="submit" class="primary-button" style="align-self: flex-end;">Adaugă medicament</button>
+            </form>
+        </section>
+
+        <!-- Tabel medicamente -->
+        <section class="panel-card">
+            <div class="panel-head">
+                <h3>Stoc medicamente</h3>
+                <span>Date reale din baza de date</span>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Denumire</th>
+                        <th>Stoc curent</th>
+                        <th>Actualizează stoc</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="med : ${medicamente}">
+                        <td th:text="${med['idMedicament']}"></td>
+                        <td th:text="${med['denumire']}"></td>
+                        <td>
+                            <span th:text="${med['stoc']}"
+                                  th:style="${med['stoc']} <= 5 ? 'color:#dc3545;font-weight:600;' : 'color:#155724;font-weight:600;'">
+                            </span>
+                        </td>
+                        <td>
+                            <form th:action="@{/module/medicamente/actualizeaza-stoc}" method="post"
+                                  style="display:flex;gap:8px;align-items:center;">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                                <input type="hidden" name="idMedicament" th:value="${med['idMedicament']}"/>
+                                <input type="number" name="stocNou" min="0"
+                                       th:value="${med['stoc']}"
+                                       style="width:80px;padding:6px 8px;border:1px solid #ddd;border-radius:6px;font-size:14px;"/>
+                                <button type="submit" class="primary-button"
+                                        style="padding:6px 14px;font-size:13px;">
+                                    Salvează
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr th:if="${medicamente == null or #lists.isEmpty(medicamente)}">
+                        <td colspan="4" style="text-align:center;color:#888;padding:20px;">
+                            Nu există medicamente înregistrate.
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+</div>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>
