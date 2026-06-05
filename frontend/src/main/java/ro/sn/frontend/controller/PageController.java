@@ -502,4 +502,33 @@ public class PageController {
         preparePage(model, authentication, "video", "Monitorizare Live", "Cameră Robot Spital");
         return "modules/video"; // Numele fișierului tău HTML fără extensie
     }
+
+
+    // ─── POST: Actualizeaza stoc medicament ──────────────────────────────────────
+    @PostMapping("/module/medicamente/actualizeaza-stoc")
+    public String actualizeazaStocMedicament(
+            @RequestParam Integer idMedicament,
+            @RequestParam Integer stocNou,
+            RedirectAttributes redirectAttrs) {
+
+        // Folosim actualizeazaMedicament cu denumirea existentă
+        // Mai întâi luăm lista să găsim denumirea curentă
+        List<Map<String, Object>> medicamente = backendService.getMedicamente();
+        String denumire = "";
+        if (medicamente != null) {
+            denumire = medicamente.stream()
+                    .filter(m -> idMedicament.equals(m.get("idMedicament")))
+                    .map(m -> (String) m.get("denumire"))
+                    .findFirst()
+                    .orElse("");
+        }
+
+        Map<String, Object> result = backendService.actualizeazaMedicament(idMedicament, denumire, stocNou);
+        if (result != null) {
+            redirectAttrs.addFlashAttribute("succes", "Stocul a fost actualizat!");
+        } else {
+            redirectAttrs.addFlashAttribute("eroare", "Eroare la actualizarea stocului.");
+        }
+        return "redirect:/module/medicamente";
+    }
 }
