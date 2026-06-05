@@ -30,6 +30,6 @@ public class Pat {
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cnp_pacient", referencedColumnName = "cnp")
-    @JsonIgnore
+
     private Pacient pacient;
 }
