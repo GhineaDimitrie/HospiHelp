@@ -73,6 +73,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/comenzi/**").hasAnyRole("ADMIN", "MEDIC", "ROBOT","ASISTENTA", "FARMACIST")
                         .requestMatchers("/api/alarme/**").hasAnyRole("ADMIN", "ROBOT", "FARMACIST")
                         .requestMatchers("/api/paturi/**").hasAnyRole("ADMIN", "ROBOT", "ASISTENTA", "FARMACIST")
+                        .requestMatchers("/module/video").hasAnyRole("MEDIC", "ADMIN")
 
                         // API general - oricine autentificat (inclusiv ROBOT)
                         .requestMatchers("/api/**").authenticated()
