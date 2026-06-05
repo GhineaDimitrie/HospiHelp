@@ -58,7 +58,7 @@
                         <option value="">Alege patul</option>
                         <option th:each="p : ${paturi}"
                                 th:value="${p['idPat']}"
-                                th:text="'Salon ' + ${p['nrSalon']} + ' - Pat ' + ${p['idPat']} + ' (' + ${p['pacient']['nume']} + ')'">
+                                th:text="'Salon ' + ${p['nrSalon']} + ' - Pat ' + ${p['idPat']} + ' (' + (${p['pacient']} != null ? ${p['pacient']['nume']} + ' ' + ${p['pacient']['prenume']} : 'Liber') + ')'">
                         </option>
                     </select>
                 </div>
