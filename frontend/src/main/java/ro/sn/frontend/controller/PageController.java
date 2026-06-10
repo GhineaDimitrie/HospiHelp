@@ -157,8 +157,10 @@ public class PageController {
         preparePage(model, authentication, "pacienti", "Pacienți", "Gestionare pacienți");
 
         var listaPacienti = backendService.getPacienti();
-        // Dacă API-ul dă eroare sau e gol, trimitem o listă goală, nu null
         model.addAttribute("pacienti", listaPacienti != null ? listaPacienti : new java.util.ArrayList<>());
+
+        var paturiLibere = backendService.getPaturiLibere();
+        model.addAttribute("paturiLibere", paturiLibere != null ? paturiLibere : new java.util.ArrayList<>());
 
         return "modules/pacienti";
     }
